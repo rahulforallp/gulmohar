@@ -1,0 +1,7 @@
+New log file opened at Sat Mar 25 16:57:30 IST 2017 by 6445@knoldus
+Taking next connection to: 33561
+New client attempting to connect on port: 42052-33561
+  Address = /127.0.1.1:33561
+This client on port 42052 has uuid cc513f63-a51a-447d-beba-1fa887b9c3d1 configName activator humanReadableName Activator protocolVersion 3 featureTags Vector()
+Connected Clients: activator-cc513f63-a51a-447d-beba-1fa887b9c3d1
+Taking next connection to: 33561
