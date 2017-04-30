@@ -40,16 +40,6 @@ font-size:18px;
 font-weight: bold;
 font-color:rgb(0,255,255);
 }
-.borderimg {
-    border: 30px solid transparent;
-    padding: 5px;
-    -webkit-border-image: url("@routes.Assets.versioned("images/Gulmohar.jpg")") ; /* Safari 3.1-5 */
-    -o-border-image: url("@routes.Assets.versioned("images/Gulmohar.jpg")"); /* Opera 11-12.1 */
-    border-image: url("@routes.Assets.versioned("images/Gulmohar.jpg")")  ;
-     border-image-slice: 30;
-    border-image-repeat:repeat;
-
-}
 
 .btn-circle {
   width: 30px;
@@ -76,11 +66,70 @@ font-color:rgb(0,255,255);
   line-height: 1.33;
   border-radius: 35px;
 }
+.list-group{
+    max-height: 355px;
+    overflow-y:scroll;
+}
 
+body  {
+    background-image: url("@routes.Assets.versioned("images/Gulmohar.jpg")");
+    background-size:cover;
+}
+
+#borderimg {
+    border: 10px solid transparent;
+    padding: 15px;
+    border-image-source: url(@routes.Assets.versioned("images/border.png"));
+    border-image-slice: 25;
+}
+
+.carousel-control 			 { width:  4%; }
+.carousel-control.left,.carousel-control.right {margin-left:15px;background-image:none;}
+@@media (max-width: 767px) {
+	.carousel-inner .active.left { left: -100%; }
+	.carousel-inner .next        { left:  100%; }
+	.carousel-inner .prev		 { left: -100%; }
+	.active > div { display:none; }
+	.active > div:first-child { display:block; }
+
+}
+@@media (min-width: 767px) and (max-width: 992px ) {
+	.carousel-inner .active.left { left: -50%; }
+	.carousel-inner .next        { left:  50%; }
+	.carousel-inner .prev		 { left: -50%; }
+	.active > div { display:none; }
+	.active > div:first-child { display:block; }
+	.active > div:first-child + div { display:block; }
+}
+@@media (min-width: 992px ) {
+	.carousel-inner .active.left { left: -25%; }
+	.carousel-inner .next        { left:  25%; }
+	.carousel-inner .prev		 { left: -25%; }
+}
 
 </style>
+
+    <script type="text/javascript">
+        $('.carousel[data-type="multi"] .item').each(function(){
+  var next = $(this).next();
+  if (!next.length) {
+    next = $(this).siblings(':first');
+  }
+  next.children(':first-child').clone().appendTo($(this));
+
+  for (var i=0;i<2;i++) {
+    next=next.next();
+    if (!next.length) {
+    	next = $(this).siblings(':first');
+  	}
+
+    next.children(':first-child').clone().appendTo($(this));
+  }
+});
+    </script>
+
     </head>
-<body class="borderimg">
+<body id="borderimg">
 <!-- Top menu -->
 <nav class="navbar" role="navigation">
     <div class="container">

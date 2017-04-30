@@ -23,4 +23,7 @@ class HomeController @Inject() extends Controller {
   def aboutUs = Action {
     Ok(views.html.aboutUs("your application is ready"))
   }
+  def author = Action {
+    Ok(views.html.author("your application is ready"))
+  }
 }
