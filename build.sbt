@@ -16,6 +16,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-nop" % "1.6.4"
 )
 
+
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 
 
