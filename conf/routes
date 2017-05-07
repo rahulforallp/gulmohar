@@ -5,7 +5,8 @@
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
 GET     /aboutUS                    controllers.HomeController.aboutUs
-GET     /author                    controllers.HomeController.author
+GET     /author                    controllers.HomeController.authors
+GET     /initauthors                    controllers.HomeController.initauthors
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
