@@ -49,7 +49,7 @@ return None
   }
 
   def execute(string: String):Boolean={
-    return getConnection().get.prepareStatement(string).execute()
+    return !(getConnection().get.prepareStatement(string).execute())
   }
 
   def main(args: Array[String]): Unit = {

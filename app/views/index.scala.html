@@ -1,5 +1,5 @@
 
-@(authorsJson: String)
+@(listAuthor: List[Authors])
 
 @main("गुलमोहर/Gulmohaar") {
 
@@ -197,8 +197,12 @@
  <div class="col-md-12 ">
   <div class="carousel slide" data-ride="carousel" data-type="multi" data-interval="3000" id="myCarousel1">
    <div class="carousel-inner">
+
+
     <div class="item active">
-     <div class="col-md-3 col-sm-6 col-xs-12">
+    @for((aAuthor,i) <- listAuthor.zipWithIndex){
+        @if(i<4){
+        <div class="col-md-3 col-sm-6 col-xs-12">
       <div class="card hovercard">
       <div class="cardheader"></div>
       <div class="avatar" data-toggle="modal" data-target="#myModal">
@@ -207,12 +211,12 @@
       </div>
       <div class="info">
        <div class="title">
-        <a target="_blank" href="">शरद अग्रवाल	</a>
+        <a target="_blank" href="">@aAuthor.name</a>
        </div>
        <div data-toggle="modal" data-target="#myModal">
-        <div class="desc">Passionate designer</div>
-        <div class="desc">Curious developer</div>
-        <div class="desc">Tech geek</div>
+        <div class="desc">@aAuthor.designation</div>
+        <div class="desc">@aAuthor.about</div>
+        <div class="desc">@aAuthor.email</div>
        </div>
       </div>
       <div class="bottom">
@@ -235,348 +239,54 @@
       </div>
      </div>
      </div>
-     <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card hovercard">
-       <div class="cardheader"></div>
-       <div class="avatar" data-toggle="modal" data-target="#myModal">
-        <img alt="" style="border: none; width: 100%;" height="225"
-             src="@routes.Assets.versioned("images/author.jpg")">
-       </div>
-       <div class="info">
-        <div class="title">
-         <a target="_blank" href="">अमित ओहलन</a>
-        </div>
-        <div data-toggle="modal" data-target="#myModal">
-         <div class="desc">Passionate designer</div>
-         <div class="desc">Curious developer</div>
-         <div class="desc">Tech geek</div>
-        </div>
-       </div>
-       <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm"
-           href="https://twitter.com">
-         <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="https://facebook.com">
-         <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-behance"></i>
-        </a>
-       </div>
-      </div>
-     </div>
-     <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card hovercard">
-       <div class="cardheader"></div>
-       <div class="avatar" data-toggle="modal" data-target="#myModal">
-        <img alt="" style="border: none; width: 100%;" height="225"
-             src="@routes.Assets.versioned("images/author.jpg")">
-       </div>
-       <div class="info">
-        <div class="title">
-         <a target="_blank" href="">शरद झा</a>
-        </div>
-        <div data-toggle="modal" data-target="#myModal">
-         <div class="desc">Passionate designer</div>
-         <div class="desc">Curious developer</div>
-         <div class="desc">Tech geek</div>
-        </div>
-       </div>
-       <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm"
-           href="https://twitter.com">
-         <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="https://facebook.com">
-         <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-behance"></i>
-        </a>
-       </div>
-      </div>
-     </div>
-     <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card hovercard">
-       <div class="cardheader"></div>
-       <div class="avatar" data-toggle="modal" data-target="#myModal">
-        <img alt="" style="border: none; width: 100%;" height="225"
-             src="@routes.Assets.versioned("images/author.jpg")">
-       </div>
-       <div class="info">
-        <div class="title">
-         <a target="_blank" href="">मनोज शाण्डिल</a>
-        </div>
-        <div data-toggle="modal" data-target="#myModal">
-         <div class="desc">Passionate designer</div>
-         <div class="desc">Curious developer</div>
-         <div class="desc">Tech geek</div>
-        </div>
-       </div>
-       <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm"
-           href="https://twitter.com">
-         <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="https://facebook.com">
-         <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-behance"></i>
-        </a>
-       </div>
-      </div>
-     </div>
-
+}
+        }
     </div>
 
-    <div class="item">
-     <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card hovercard">
-       <div class="cardheader"></div>
-       <div class="avatar" data-toggle="modal" data-target="#myModal">
-        <img alt="" style="border: none; width: 100%;" height="225"
-             src="@routes.Assets.versioned("images/author.jpg")">
+       <div class="item">
+           @for((aAuthor,i) <- listAuthor.zipWithIndex){
+           @if(i>3){
+           <div class="col-md-3 col-sm-6 col-xs-12">
+               <div class="card hovercard">
+                   <div class="cardheader"></div>
+                   <div class="avatar" data-toggle="modal" data-target="#myModal">
+                       <img alt="" style="border: none; width: 100%;" height="225"
+                            src="@routes.Assets.versioned("images/author.jpg")">
+                   </div>
+                   <div class="info">
+                       <div class="title">
+                           <a target="_blank" href="">@aAuthor.name</a>
+                       </div>
+                       <div data-toggle="modal" data-target="#myModal">
+                           <div class="desc">@aAuthor.designation</div>
+                           <div class="desc">@aAuthor.about</div>
+                           <div class="desc">@aAuthor.email</div>
+                       </div>
+                   </div>
+                   <div class="bottom">
+                       <a class="btn btn-primary btn-twitter btn-sm"
+                          href="https://twitter.com">
+                           <i class="fa fa-twitter"></i>
+                       </a>
+                       <a class="btn btn-warning btn-sm" rel="publisher"
+                          href="https://plus.google.com">
+                           <i class="fa fa-google-plus"></i>
+                       </a>
+                       <a class="btn btn-primary btn-sm" rel="publisher"
+                          href="https://facebook.com">
+                           <i class="fa fa-facebook"></i>
+                       </a>
+                       <a class="btn btn-warning btn-sm" rel="publisher"
+                          href="https://plus.google.com">
+                           <i class="fa fa-behance"></i>
+                       </a>
+                   </div>
+               </div>
+           </div>
+           }
+           }
        </div>
-       <div class="info">
-        <div class="title">
-         <a target="_blank" href="">संदीप विहान</a>
-        </div>
-        <div data-toggle="modal" data-target="#myModal">
-         <div class="desc">Passionate designer</div>
-         <div class="desc">Curious developer</div>
-         <div class="desc">Tech geek</div>
-        </div>
-       </div>
-       <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm"
-           href="https://twitter.com">
-         <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="https://facebook.com">
-         <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-behance"></i>
-        </a>
-       </div>
-      </div>
-     </div>
-     <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card hovercard">
-       <div class="cardheader"></div>
-       <div class="avatar" data-toggle="modal" data-target="#myModal">
-        <img alt="" style="border: none; width: 100%;" height="225"
-             src="@routes.Assets.versioned("images/author.jpg")">
-       </div>
-       <div class="info">
-        <div class="title">
-         <a target="_blank" href="">अलोक</a>
-        </div>
-        <div data-toggle="modal" data-target="#myModal">
-         <div class="desc">Passionate designer</div>
-         <div class="desc">Curious developer</div>
-         <div class="desc">Tech geek</div>
-        </div>
-       </div>
-       <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm"
-           href="https://twitter.com">
-         <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="https://facebook.com">
-         <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-behance"></i>
-        </a>
-       </div>
-      </div>
-     </div>
-     <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card hovercard">
-       <div class="cardheader"></div>
-       <div class="avatar" data-toggle="modal" data-target="#myModal">
-        <img alt="" style="border: none; width: 100%;" height="225"
-             src="@routes.Assets.versioned("images/author.jpg")">
-       </div>
-       <div class="info">
-        <div class="title">
-         <a target="_blank" href="">शचीन्द्र आर्य</a>
-        </div>
-        <div data-toggle="modal" data-target="#myModal">
-         <div class="desc">Passionate designer</div>
-         <div class="desc">Curious developer</div>
-         <div class="desc">Tech geek</div>
-        </div>
-       </div>
-       <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm"
-           href="https://twitter.com">
-         <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="https://facebook.com">
-         <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-behance"></i>
-        </a>
-       </div>
-      </div>
-     </div>
-     <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card hovercard">
-       <div class="cardheader"></div>
-       <div class="avatar" data-toggle="modal" data-target="#myModal">
-        <img alt="" style="border: none; width: 100%;" height="225"
-             src="@routes.Assets.versioned("images/author.jpg")">
-       </div>
-       <div class="info">
-        <div class="title">
-         <a target="_blank" href="">देवेश</a>
-        </div>
-        <div data-toggle="modal" data-target="#myModal">
-         <div class="desc">Passionate designer</div>
-         <div class="desc">Curious developer</div>
-         <div class="desc">Tech geek</div>
-        </div>
-       </div>
-       <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm"
-           href="https://twitter.com">
-         <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="https://facebook.com">
-         <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-behance"></i>
-        </a>
-       </div>
-      </div>
-     </div>
 
-    </div>
-
-    <div class="item">
-     <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card hovercard">
-       <div class="cardheader"></div>
-       <div class="avatar" data-toggle="modal" data-target="#myModal">
-        <img alt="" style="border: none; width: 100%;" height="225"
-             src="@routes.Assets.versioned("images/author.jpg")">
-       </div>
-       <div class="info">
-        <div class="title">
-         <a target="_blank" href="">पूजा उपाध्याय</a>
-        </div>
-        <div data-toggle="modal" data-target="#myModal">
-         <div class="desc">Passionate designer</div>
-         <div class="desc">Curious developer</div>
-         <div class="desc">Tech geek</div>
-        </div>
-       </div>
-       <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm"
-           href="https://twitter.com">
-         <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="https://facebook.com">
-         <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-behance"></i>
-        </a>
-       </div>
-      </div>
-     </div>
-     <div class="col-md-3 col-sm-6 col-xs-12">
-      <div class="card hovercard">
-       <div class="cardheader"></div>
-       <div class="avatar" data-toggle="modal" data-target="#myModal">
-        <img alt="" style="border: none; width: 100%;" height="225"
-             src="@routes.Assets.versioned("images/author.jpg")">
-       </div>
-       <div class="info">
-        <div class="title">
-         <a target="_blank" href="">दीपक जयसवाल</a>
-        </div>
-        <div data-toggle="modal" data-target="#myModal">
-         <div class="desc">Passionate designer</div>
-         <div class="desc">Curious developer</div>
-         <div class="desc">Tech geek</div>
-        </div>
-       </div>
-       <div class="bottom">
-        <a class="btn btn-primary btn-twitter btn-sm"
-           href="https://twitter.com">
-         <i class="fa fa-twitter"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-google-plus"></i>
-        </a>
-        <a class="btn btn-primary btn-sm" rel="publisher"
-           href="https://facebook.com">
-         <i class="fa fa-facebook"></i>
-        </a>
-        <a class="btn btn-warning btn-sm" rel="publisher"
-           href="https://plus.google.com">
-         <i class="fa fa-behance"></i>
-        </a>
-       </div>
-      </div>
-     </div>
-    </div>
 
    </div>
    <a class="left carousel-control" href="#myCarousel1" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
