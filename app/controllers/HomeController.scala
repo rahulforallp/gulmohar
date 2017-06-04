@@ -1,5 +1,6 @@
 package controllers
 
+import java.io.{BufferedReader, File, FileReader, IOException}
 import java.sql.ResultSet
 
 import play.api.data.Form
@@ -69,6 +70,8 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       JDBCConnection.execute("insert into authors values('name7','designation7','about7','email7')")
       JDBCConnection.execute("insert into authors values('name8','designation8','about8','email8')")
       JDBCConnection.execute("insert into authors values('name9','designation9','about9','email9')")*/
+
+      new File("/tmp/article").mkdir()
       Ok
     }
   }
@@ -77,6 +80,42 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
   def authors = {
     Action {
       Ok(views.html.author(signUpForm))
+    }
+  }
+
+  def upload = Action(parse.multipartFormData) { request =>
+    request.body.file("article").map { article =>
+      import java.io.File
+      val filename = article.filename
+      val contentType = article.contentType
+      article.ref.moveTo(new File(s"/tmp/article/$filename"))
+      Ok(readFile(s"/tmp/article/$filename"))
+    }.getOrElse {
+      Redirect(routes.HomeController.authors()).flashing(
+        "error" -> "Missing file")
+    }
+  }
+
+  def readFile(filePath:String): String ={
+    var br:BufferedReader = null;
+    var  fr :FileReader= null;
+
+    try {
+
+      fr = new FileReader(filePath);
+      br = new BufferedReader(fr);
+
+      var sCurrentLine : String ="" ;
+var body ="";
+
+      while ((sCurrentLine = br.readLine()) != null) {
+        body+=sCurrentLine;
+      }
+return body;
+    } catch  {
+case e:IOException => e.printStackTrace();
+        return "";
+
     }
   }
 

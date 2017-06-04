@@ -9,6 +9,7 @@ GET     /authors                    controllers.HomeController.authors
 GET     /getAllAuthors                    controllers.HomeController.getAllAuthors
 GET     /initauthors                    controllers.HomeController.initauthors
 POST     /signup                          controllers.HomeController.signUp
+POST    /uploadArticle                     controllers.HomeController.upload()
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
