@@ -24,7 +24,7 @@ object JDBCConnection {
 
   try
     connection = DriverManager
-      .getConnection("jdbc:postgresql://localhost:5432/gulmohar", "postgres", "postgres")
+      .getConnection("jdbc:postgresql://ec2-54-163-254-76.compute-1.amazonaws.com:5432/dfo9pun113vlcu?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory", "afhsidxzoxwlve", "43d62666ac459b5a8b5064ba09c304229bc2e5019cba0956f27b214e47516678")
 
   catch {
     case e: SQLException => {
