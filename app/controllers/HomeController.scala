@@ -61,14 +61,14 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
           "email " +
           "varchar)")
       JDBCConnection.execute("insert into authors values('name1','designation1','about1','email1')")
-      JDBCConnection.execute("insert into authors values('name2','designation2','about2','email2')")
+     /* JDBCConnection.execute("insert into authors values('name2','designation2','about2','email2')")
       JDBCConnection.execute("insert into authors values('name3','designation3','about3','email3')")
       JDBCConnection.execute("insert into authors values('name4','designation4','about4','email4')")
       JDBCConnection.execute("insert into authors values('name5','designation5','about5','email5')")
       JDBCConnection.execute("insert into authors values('name6','designation6','about6','email6')")
       JDBCConnection.execute("insert into authors values('name7','designation7','about7','email7')")
       JDBCConnection.execute("insert into authors values('name8','designation8','about8','email8')")
-      JDBCConnection.execute("insert into authors values('name9','designation9','about9','email9')")
+      JDBCConnection.execute("insert into authors values('name9','designation9','about9','email9')")*/
       Ok
     }
   }
