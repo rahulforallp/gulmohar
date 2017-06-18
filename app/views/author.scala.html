@@ -17,7 +17,10 @@
         @helper.inputText(articleForm("title"), 'id -> "title", 'size -> 30,'_label -> "शीर्षक")
             </span>
             <span class="glyphicon glyphicon-envelope">
-        @helper.inputText(articleForm("body"), 'id -> "body", 'size -> 30,'_label -> "लेख सामग्री")
+        @helper.input(articleForm("body"),'size -> 30,'_label -> "लेख सामग्री") { (id, name, value, args) =>
+    <textarea name="@name" id="@id" @toHtmlArgs(args)></textarea>
+}
+
             </span>
             <br>
 
