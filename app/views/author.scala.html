@@ -1,7 +1,7 @@
 @import helper._
 @import models._
 @import controllers._
-@(signUpForm: Form[Authors])(implicit messages: Messages)
+@(signUpForm: Form[Authors],articleForm: Form[Article])(implicit messages: Messages)
 
 
 @main("गुलमोहर/Gulmohaar") {
@@ -9,13 +9,16 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="well well-sm">
             <h2>लेख प्रकाशित करें</h2>
-            @helper.form(action = routes.HomeController.upload,'enctype -> "multipart/form-data") {
+            @helper.form(action = routes.HomeController.articleUpload,'enctype -> "multipart/form-data") {
             <span class="glyphicon glyphicon-envelope">
-        @helper.inputText(signUpForm("email"), 'id -> "email", 'size -> 30,'_label -> "ईमेल")
+        @helper.inputText(articleForm("email"), 'id -> "email", 'size -> 30,'_label -> "ईमेल")
             </span>
-            <span class="">
-            <input type="file" name="article">
-                </span>
+            <span class="glyphicon glyphicon-envelope">
+        @helper.inputText(articleForm("title"), 'id -> "title", 'size -> 30,'_label -> "शीर्षक")
+            </span>
+            <span class="glyphicon glyphicon-envelope">
+        @helper.inputText(articleForm("body"), 'id -> "body", 'size -> 30,'_label -> "लेख सामग्री")
+            </span>
             <br>
 
             <input type="submit" value="जमा करें">

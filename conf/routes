@@ -6,10 +6,13 @@
 GET     /                           controllers.HomeController.index
 GET     /aboutUS                    controllers.HomeController.aboutUs
 GET     /authors                    controllers.HomeController.authors
-GET     /getAllAuthors                    controllers.HomeController.getAllAuthors
-GET     /initauthors                    controllers.HomeController.initauthors
-POST     /signup                          controllers.HomeController.signUp
-POST    /uploadArticle                     controllers.HomeController.upload()
+GET     /getAllAuthors              controllers.HomeController.getAllAuthors
+GET     /getAllArticles              controllers.HomeController.getAllArticles
+GET     /initauthors                controllers.HomeController.initauthors
+GET     /errorPage                  controllers.HomeController.errorPage
+POST     /signup                    controllers.HomeController.signUp
+POST     /articleUpload             controllers.HomeController.articleUpload
+
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code

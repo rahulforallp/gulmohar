@@ -1,5 +1,5 @@
 
-@(listAuthor: List[Authors])
+@(listAuthor: List[Authors],listArticle: List[Article])
 
 @main("गुलमोहर/Gulmohaar") {
 
@@ -65,125 +65,25 @@
 
 <div class="tab-content">
   <div id="home" class="tab-pane fade in active">
-         <ul class="list-group">
-  <li class="list-group-item list-group-item-info">दो रूपये का प्लेटफॉर्म टिकट</li>
-  <li class="list-group-item list-group-item-danger">आम की गुठली</li>
-  <li class="list-group-item list-group-item-info">परिवर्तन और अनुभव..</li>
-  <li class="list-group-item list-group-item-danger">कितना कुछ है गोलगप्पों के पास..</li>
-  <li class="list-group-item list-group-item-info"> अब सोहन हलवा कैसे खाएंगे...?</li>
-  <li class="list-group-item list-group-item-danger"> छोटे शहरों को ज़िंदा करता मसान</li>
-  <li class="list-group-item list-group-item-info">रिटर्न ऑफ पंजाबी गाने</li>
-  <li class="list-group-item list-group-item-danger">हम सब का एक जैसा हो जाना</li>
-  <li class="list-group-item list-group-item-info"> अंजान लोगों से दोस्ती न करें!!</li>
-  <li class="list-group-item list-group-item-danger"> पुलिस का एक रूप ये भी</li>
-  <li class="list-group-item list-group-item-info">रास्ते में</li>
-  <li class="list-group-item list-group-item-danger">बारिश और सभ्यता</li>
-  <li class="list-group-item list-group-item-info">अंतर्मन की यात्रा</li>
-  <li class="list-group-item list-group-item-danger">आँखों में पानी</li>
-  <li class="list-group-item list-group-item-info">स्मृतियाँ</li>
-  <li class="list-group-item list-group-item-danger">चुमाओन</li>
-  <li class="list-group-item list-group-item-info">मुक्तिद्वार</li>
-  <li class="list-group-item list-group-item-danger">पालना</li>
-  <li class="list-group-item list-group-item-info">रस-गंध-स्वाद</li>
-  <li class="list-group-item list-group-item-danger">तुम</li>
-  <li class="list-group-item list-group-item-info">विकास का रंगमंच</li>
-  <li class="list-group-item list-group-item-danger">बदली बदली सी प्रकृति</li>
-  <li class="list-group-item list-group-item-info"> ख़ालिस शहर...</li>
-  <li class="list-group-item list-group-item-danger">ठंडी रात के कुछ ख्याल</li>
-  <li class="list-group-item list-group-item-info">माफीनामा बायीं तरफ दर्ज है</li>
-  <li class="list-group-item list-group-item-danger">एक और पुरानी तरह का नया साल</li>
-  <li class="list-group-item list-group-item-info">लिख रहा हूँ</li>
-  <li class="list-group-item list-group-item-danger">ल्हासा की माँए</li>
-  <li class="list-group-item list-group-item-info">तोड़े से न टूटे ये शहर , इसकी बुजुर्गी!</li>
-  <li class="list-group-item list-group-item-danger">मनाली , मौसम और बिकता शहर !</li>
-  <li class="list-group-item list-group-item-info">कोयल की आवाज</li>
-  <li class="list-group-item list-group-item-danger">ये उस रात के आंवले हैं</li>
-  <li class="list-group-item list-group-item-info">कवि की पहुँच</li>
-  <li class="list-group-item list-group-item-danger">बचा खुचा मनुष्य</li>
-  <li class="list-group-item list-group-item-info">कौव्वे के बच्चे</li>
-  <li class="list-group-item list-group-item-danger">हमें साथ रहना नहीं आता !</li>
-  <li class="list-group-item list-group-item-info">ये रहस्यमय जगह</li>
-  <li class="list-group-item list-group-item-danger">मेज पर</li>
-  <li class="list-group-item list-group-item-info">जुड़ती-टूटती बातें और हमारा मन</li>
-  <li class="list-group-item list-group-item-danger">फैसले की घड़ी में</li>
-  <li class="list-group-item list-group-item-info">मरवा के पौधे सी</li>
-  <li class="list-group-item list-group-item-danger">एकांत की चाह</li>
-  <li class="list-group-item list-group-item-info">मैं वैसा क्यों लिखूँ...?</li>
-  <li class="list-group-item list-group-item-danger">मैं नही जाऊँगा!</li>
-  <li class="list-group-item list-group-item-info">बुज़ुर्गों के साथ अतीत का सफर</li>
-  <li class="list-group-item list-group-item-danger">तुम्हें सोचते हुए...</li>
-  <li class="list-group-item list-group-item-info">साहित्यिक मूल्य और विद्यार्थी</li>
-  <li class="list-group-item list-group-item-danger">मनुष्य होने की निशानियाँ ।</li>
-  <li class="list-group-item list-group-item-info">तब और अब</li>
-  <li class="list-group-item list-group-item-danger">किसी रोज़ का सितारा</li>
-  <li class="list-group-item list-group-item-info">आखिरी बात के अश्क</li>
-  <li class="list-group-item list-group-item-danger">सपना</li>
-  <li class="list-group-item list-group-item-info">लड़कियाँ.</li>
-  <li class="list-group-item list-group-item-danger">सिर्फ एक जूते का दिखना...</li>
-  <li class="list-group-item list-group-item-info">कर्फ्यू और एक छोटी लड़की...</li>
-  <li class="list-group-item list-group-item-danger">पछ्छील्लो...</li>
-  <li class="list-group-item list-group-item-info">सपने....</li>
+      <ul class="list-group">
+         @for((aArticle,i) <- listArticle.zipWithIndex){
+          @if(i%2==0){
+            <li class="list-group-item list-group-item-info">@aArticle.title</li>
+          }else{
+            <li class="list-group-item list-group-item-warning">@aArticle.title</li>
+          }
+         }
 </ul>
   </div>
   <div id="menu1" class="tab-pane fade">
-   <ul class="list-group">
-  <li class="list-group-item list-group-item-info">दो रूपये का प्लेटफॉर्म टिकट</li>
-  <li class="list-group-item list-group-item-danger">आम की गुठली</li>
-  <li class="list-group-item list-group-item-info">परिवर्तन और अनुभव..</li>
-  <li class="list-group-item list-group-item-danger">कितना कुछ है गोलगप्पों के पास..</li>
-  <li class="list-group-item list-group-item-info"> अब सोहन हलवा कैसे खाएंगे...?</li>
-  <li class="list-group-item list-group-item-danger"> छोटे शहरों को ज़िंदा करता मसान</li>
-  <li class="list-group-item list-group-item-info">रिटर्न ऑफ पंजाबी गाने</li>
-  <li class="list-group-item list-group-item-danger">हम सब का एक जैसा हो जाना</li>
-  <li class="list-group-item list-group-item-info"> अंजान लोगों से दोस्ती न करें!!</li>
-  <li class="list-group-item list-group-item-danger"> पुलिस का एक रूप ये भी</li>
-  <li class="list-group-item list-group-item-info">रास्ते में</li>
-  <li class="list-group-item list-group-item-danger">बारिश और सभ्यता</li>
-  <li class="list-group-item list-group-item-info">अंतर्मन की यात्रा</li>
-  <li class="list-group-item list-group-item-danger">आँखों में पानी</li>
-  <li class="list-group-item list-group-item-info">स्मृतियाँ</li>
-  <li class="list-group-item list-group-item-danger">चुमाओन</li>
-  <li class="list-group-item list-group-item-info">मुक्तिद्वार</li>
-  <li class="list-group-item list-group-item-danger">पालना</li>
-  <li class="list-group-item list-group-item-info">रस-गंध-स्वाद</li>
-  <li class="list-group-item list-group-item-danger">तुम</li>
-  <li class="list-group-item list-group-item-info">विकास का रंगमंच</li>
-  <li class="list-group-item list-group-item-danger">बदली बदली सी प्रकृति</li>
-  <li class="list-group-item list-group-item-info"> ख़ालिस शहर...</li>
-  <li class="list-group-item list-group-item-danger">ठंडी रात के कुछ ख्याल</li>
-  <li class="list-group-item list-group-item-info">माफीनामा बायीं तरफ दर्ज है</li>
-  <li class="list-group-item list-group-item-danger">एक और पुरानी तरह का नया साल</li>
-  <li class="list-group-item list-group-item-info">लिख रहा हूँ</li>
-  <li class="list-group-item list-group-item-danger">ल्हासा की माँए</li>
-  <li class="list-group-item list-group-item-info">तोड़े से न टूटे ये शहर , इसकी बुजुर्गी!</li>
-  <li class="list-group-item list-group-item-danger">मनाली , मौसम और बिकता शहर !</li>
-  <li class="list-group-item list-group-item-info">कोयल की आवाज</li>
-  <li class="list-group-item list-group-item-danger">ये उस रात के आंवले हैं</li>
-  <li class="list-group-item list-group-item-info">कवि की पहुँच</li>
-  <li class="list-group-item list-group-item-danger">बचा खुचा मनुष्य</li>
-  <li class="list-group-item list-group-item-info">कौव्वे के बच्चे</li>
-  <li class="list-group-item list-group-item-danger">हमें साथ रहना नहीं आता !</li>
-  <li class="list-group-item list-group-item-info">ये रहस्यमय जगह</li>
-  <li class="list-group-item list-group-item-danger">मेज पर</li>
-  <li class="list-group-item list-group-item-info">जुड़ती-टूटती बातें और हमारा मन</li>
-  <li class="list-group-item list-group-item-danger">फैसले की घड़ी में</li>
-  <li class="list-group-item list-group-item-info">मरवा के पौधे सी</li>
-  <li class="list-group-item list-group-item-danger">एकांत की चाह</li>
-  <li class="list-group-item list-group-item-info">मैं वैसा क्यों लिखूँ...?</li>
-  <li class="list-group-item list-group-item-danger">मैं नही जाऊँगा!</li>
-  <li class="list-group-item list-group-item-info">बुज़ुर्गों के साथ अतीत का सफर</li>
-  <li class="list-group-item list-group-item-danger">तुम्हें सोचते हुए...</li>
-  <li class="list-group-item list-group-item-info">साहित्यिक मूल्य और विद्यार्थी</li>
-  <li class="list-group-item list-group-item-danger">मनुष्य होने की निशानियाँ ।</li>
-  <li class="list-group-item list-group-item-info">तब और अब</li>
-  <li class="list-group-item list-group-item-danger">किसी रोज़ का सितारा</li>
-  <li class="list-group-item list-group-item-info">आखिरी बात के अश्क</li>
-  <li class="list-group-item list-group-item-danger">सपना</li>
-  <li class="list-group-item list-group-item-info">लड़कियाँ.</li>
-  <li class="list-group-item list-group-item-danger">सिर्फ एक जूते का दिखना...</li>
-  <li class="list-group-item list-group-item-info">कर्फ्यू और एक छोटी लड़की...</li>
-  <li class="list-group-item list-group-item-danger">पछ्छील्लो...</li>
-  <li class="list-group-item list-group-item-info">सपने....</li>
+    <ul class="list-group">
+        @for((aArticle,i) <- listArticle.zipWithIndex){
+          @if(i%2==0){
+            <li class="list-group-item list-group-item-info">@aArticle.title</li>
+          }else{
+            <li class="list-group-item list-group-item-warning">@aArticle.title</li>
+          }
+         }
 </ul>
   </div>
 </div>
