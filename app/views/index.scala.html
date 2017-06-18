@@ -68,9 +68,9 @@
       <ul class="list-group">
          @for((aArticle,i) <- listArticle.zipWithIndex){
           @if(i%2==0){
-            <li class="list-group-item list-group-item-info">@aArticle.title</li>
+            <a href='@routes.HomeController.showBlog' onclick=""> <li class="list-group-item list-group-item-info">@aArticle.title</li></a>
           }else{
-            <li class="list-group-item list-group-item-warning">@aArticle.title</li>
+            <a href='@routes.HomeController.showBlog'> <li class="list-group-item list-group-item-warning">@aArticle.title</li></a>
           }
          }
 </ul>
@@ -79,9 +79,9 @@
     <ul class="list-group">
         @for((aArticle,i) <- listArticle.zipWithIndex){
           @if(i%2==0){
-            <li class="list-group-item list-group-item-info">@aArticle.title</li>
+            <a href='@routes.HomeController.showBlog'> <li class="list-group-item list-group-item-info">@aArticle.title</li></a>
           }else{
-            <li class="list-group-item list-group-item-warning">@aArticle.title</li>
+            <a href='@routes.HomeController.showBlog'> <li class="list-group-item list-group-item-warning">@aArticle.title</li></a>
           }
          }
 </ul>

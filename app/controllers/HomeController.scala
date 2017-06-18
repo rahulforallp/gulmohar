@@ -2,6 +2,8 @@ package controllers
 
 import java.io.{BufferedReader, File, FileInputStream, FileReader, IOException}
 import java.sql.ResultSet
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 import play.api.data.Form
 import play.api.data.Forms._
@@ -43,7 +45,9 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
     mapping(
       "email" -> nonEmptyText,
       "title" -> nonEmptyText,
-      "body" -> nonEmptyText
+      "body" -> nonEmptyText,
+      "postTime" -> default(text,new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(Calendar.getInstance().getTime)),
+      "likes" -> default(text,"0")
     )(Article.apply)(Article.unapply)
   )
   def index = {
@@ -62,19 +66,25 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
     }
   }
 
+  def showBlog = {
+    Action {
+      JDBCConnection.executeQuery("select * from articles where title=''")
+      Ok(views.html.blog("your application is ready"))
+    }
+  }
+
   def initauthors = {
     Action {
       JDBCConnection.execute("drop table if exists authors")
+      JDBCConnection.execute("drop table if exists articles")
       JDBCConnection
         .execute(
-          "create table if not exists authors(name varchar,designation varchar,about varchar," +
-          "email " +
-          "varchar)")
+          "create table if not exists authors(name varchar,designation varchar,about varchar, email varchar)")
       JDBCConnection
         .execute(
-          "create table if not exists articles(email varchar,title varchar,body varchar)")
+          "create table if not exists articles(email varchar,title varchar,body varchar,blogTime varchar,likes varchar)")
       JDBCConnection.execute("insert into authors values('name1','designation1','about1','email1')")
-      JDBCConnection.execute("insert into articles values('email1','title1','body1')")
+      JDBCConnection.execute("insert into articles values('email1','title1','body1','postTime','0')")
      /* JDBCConnection.execute("insert into authors values('name2','designation2','about2','email2')")
       JDBCConnection.execute("insert into authors values('name3','designation3','about3','email3')")
       JDBCConnection.execute("insert into authors values('name4','designation4','about4','email4')")
@@ -84,7 +94,6 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       JDBCConnection.execute("insert into authors values('name8','designation8','about8','email8')")
       JDBCConnection.execute("insert into authors values('name9','designation9','about9','email9')")*/
 
-      new File("/tmp/article").mkdir()
       Ok
     }
   }
@@ -165,7 +174,7 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
             if (JDBCConnection
               .execute(
                 "insert into articles values('" + validData.email + "','" + validData.title +
-                "','" + validData.body + "')")) {
+                "','" + validData.body +"','"+validData.postTime+"','"+validData.likes + "')")) {
               Logger.info("Article recorded successfully.")
               Future.successful(Redirect(routes.HomeController.authors()))
             }
@@ -194,7 +203,10 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
     if (resultSet.next()) {
       val article = Article(resultSet.getString(1),
         resultSet.getString(2),
-        resultSet.getString(3))
+        resultSet.getString(3),
+        resultSet.getString(4),
+        resultSet.getString(5)
+      )
       getArticles(resultSet, articleList :+ article)
     } else {
       articleList

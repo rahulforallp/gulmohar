@@ -9,7 +9,8 @@
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="well well-sm">
             <h2>लेख प्रकाशित करें</h2>
-            @helper.form(action = routes.HomeController.articleUpload,'enctype -> "multipart/form-data") {
+            @helper.form(action = routes.HomeController.articleUpload,'enctype ->
+            "multipart/form-data") {
             <span class="glyphicon glyphicon-envelope">
         @helper.inputText(articleForm("email"), 'id -> "email", 'size -> 30,'_label -> "ईमेल")
             </span>
@@ -30,24 +31,24 @@
     </div>
     <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="well well-sm">
-        <h2>लेखक पंजीकरण</h2>
-@helper.form(action = routes.HomeController.signUp) {
-        <span class="glyphicon glyphicon-user">
+            <h2>लेखक पंजीकरण</h2>
+            @helper.form(action = routes.HomeController.signUp) {
+            <span class="glyphicon glyphicon-user">
         @helper.inputText(signUpForm("name"), 'id -> "name", 'size -> 30,'_label -> "नाम ")
             </span>
-        <span class="glyphicon glyphicon-tag">
+            <span class="glyphicon glyphicon-tag">
         @helper.inputText(signUpForm("designation"), 'id -> "designation", 'size -> 30,'_label -> "पद")
             </span>
-        <span class="glyphicon glyphicon-briefcase">
+            <span class="glyphicon glyphicon-briefcase">
 @helper.inputText(signUpForm("about"), 'id -> "about", 'size -> 30,'_label -> "आपके बारे में")
             </span>
-        <span class="glyphicon glyphicon-envelope">
+            <span class="glyphicon glyphicon-envelope">
         @helper.inputText(signUpForm("email"), 'id -> "email", 'size -> 30,'_label -> "ईमेल")
             </span>
-        <br>
-<input type="submit" value="जमा करें">
-}
-    </div>
+            <br>
+            <input type="submit" value="जमा करें">
+            }
         </div>
+    </div>
 </div>
 }
