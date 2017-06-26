@@ -11,6 +11,7 @@ GET     /getAllArticles             controllers.HomeController.getAllArticles
 GET     /initauthors                controllers.HomeController.initauthors
 GET     /errorPage                  controllers.HomeController.errorPage
 GET     /showBlog:title             controllers.HomeController.showBlog(title:String)
+GET     /likeblog:title             controllers.HomeController.likeBlog(title:String)
 POST     /signup                    controllers.HomeController.signUp
 POST     /articleUpload             controllers.HomeController.articleUpload
 

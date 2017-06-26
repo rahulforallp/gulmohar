@@ -66,6 +66,16 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
     }
   }
 
+  def likeBlog(title:String)={
+    Action{
+    val resultSet = JDBCConnection.executeQuery("select likes from articles where title='"+title+"'")
+      resultSet.next()
+      val newLikes = (resultSet.getString(1).toInt+1)
+    JDBCConnection.execute("update articles set likes ='"+newLikes+"' where title ='"+title+"'")
+    Redirect(routes.HomeController.showBlog(title))
+    }
+  }
+
   def showBlog(title:String) = {
     Action {
       val resultSet = JDBCConnection.executeQuery("select * from articles where title='"+title+"'")

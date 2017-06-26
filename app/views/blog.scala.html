@@ -37,7 +37,7 @@
             <p class="lead">@article.body</p>
 
             <hr>
-            <button  class="btn btn-primary glyphicon glyphicon-thumbs-up"> Like(@article.likes)</button>
+            <a href="@routes.HomeController.likeBlog(article.title)"> <button class="btn btn-primary glyphicon glyphicon-thumbs-up"> Like(@article.likes)</button></a>
             <hr>
             <!-- Blog Comments -->
 
