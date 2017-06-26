@@ -66,10 +66,11 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
     }
   }
 
-  def showBlog = {
+  def showBlog(title:String) = {
     Action {
-      JDBCConnection.executeQuery("select * from articles where title=''")
-      Ok(views.html.blog("your application is ready"))
+      val resultSet = JDBCConnection.executeQuery("select * from articles where title='"+title+"'")
+      val listArticle = getArticles(resultSet,Nil)
+      Ok(views.html.blog(listArticle.head))
     }
   }
 
@@ -83,18 +84,18 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       JDBCConnection
         .execute(
           "create table if not exists articles(email varchar,title varchar,body varchar,blogTime varchar,likes varchar)")
-      JDBCConnection.execute("insert into authors values('name1','designation1','about1','email1')")
+      /*JDBCConnection.execute("insert into authors values('name1','designation1','about1','email1')")
       JDBCConnection.execute("insert into articles values('email1','title1','body1','postTime','0')")
-     /* JDBCConnection.execute("insert into authors values('name2','designation2','about2','email2')")
+      JDBCConnection.execute("insert into authors values('name2','designation2','about2','email2')")
       JDBCConnection.execute("insert into authors values('name3','designation3','about3','email3')")
       JDBCConnection.execute("insert into authors values('name4','designation4','about4','email4')")
       JDBCConnection.execute("insert into authors values('name5','designation5','about5','email5')")
       JDBCConnection.execute("insert into authors values('name6','designation6','about6','email6')")
       JDBCConnection.execute("insert into authors values('name7','designation7','about7','email7')")
       JDBCConnection.execute("insert into authors values('name8','designation8','about8','email8')")
-      JDBCConnection.execute("insert into authors values('name9','designation9','about9','email9')")*/
-
-      Ok
+      JDBCConnection.execute("insert into authors values('name9','designation9','about9','email9')")
+*/
+      Ok("You have ruined the data to initial level.")
     }
   }
 
@@ -103,10 +104,10 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       Ok(views.html.author(signUpForm,articleForm))
     }
   }
-
+var description="Something went wrong."
   def errorPage = {
     Action {
-      Ok(views.html.errorPage())
+      Ok(views.html.errorPage(description))
     }
   }
 
@@ -138,7 +139,7 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
         signUpForm.bindFromRequest.fold(
           formWithErrors => {
             Logger.error("Sign-up badRequest.")
-            Future(BadRequest(views.html.errorPage()))
+            Future(BadRequest(views.html.errorPage("Something went wrong")))
           },
           validData => {
             println(validData.name + " : " + validData.email+" : "+validData.designation+" : "+validData.about)
@@ -151,7 +152,8 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
             }
             else {
               Logger.error("Author not recorded successfully.")
-              Future.successful(Redirect(routes.HomeController.authors()))
+              description ="Author not recorded successfully."
+              Future.successful(Redirect(routes.HomeController.errorPage()))
             }
           }
         )
@@ -168,19 +170,30 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
         articleForm.bindFromRequest.fold(
           formWithErrors => {
             Logger.error("aricle upload badRequest.")
-            Future(BadRequest(views.html.errorPage()))
+            Future(BadRequest(views.html.errorPage("Something went wrong.")))
           },
           validData => {
-            if (JDBCConnection
-              .execute(
-                "insert into articles values('" + validData.email + "','" + validData.title +
-                "','" + validData.body +"','"+validData.postTime+"','"+validData.likes + "')")) {
-              Logger.info("Article recorded successfully.")
-              Future.successful(Redirect(routes.HomeController.authors()))
+            val valdateemail = JDBCConnection.executeQuery("select * from authors where email='"+validData.email+"'")
+            if(!(valdateemail.next())){
+              Logger.info("Invalid Author.")
+              description="Invalid Author. Author not found. Please register you email-id."
+              Future.successful(Redirect(routes.HomeController.errorPage()))
             }
             else {
-              Logger.error("Article not recorded successfully.")
-              Future.successful(Redirect(routes.HomeController.authors()))
+              Logger.info("Valid Author.")
+              if (JDBCConnection
+                .execute(
+                  "insert into articles values('" + validData.email + "','" + validData.title +
+                  "','" + validData.body + "','" + validData.postTime + "','" + validData.likes +
+                  "')")) {
+                Logger.info("Article recorded successfully.")
+                Future.successful(Redirect(routes.HomeController.authors()))
+              }
+              else {
+                Logger.error("Article not recorded successfully.")
+                description = "Article not recorded successfully."
+                Future.successful(Redirect(routes.HomeController.errorPage()))
+              }
             }
           }
         )

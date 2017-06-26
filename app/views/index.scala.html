@@ -1,6 +1,6 @@
 
 @(listAuthor: List[Authors],listArticle: List[Article])
-
+@import java.math.BigInteger; var counter=0;
 @main("गुलमोहर/Gulmohaar") {
 
 
@@ -22,22 +22,22 @@
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
      <div class="item active">
-      <img src="@routes.Assets.versioned("images/slide1.jpg")" alt="Chania"
+      <img src="@routes.Assets.versioned("images/slide1.jpg")" alt="gulmohar"
       width="460" height="345">
      </div>
 
      <div class="item">
-      <img src="@routes.Assets.versioned("images/slide2.jpg")" alt="Chania"
+      <img src="@routes.Assets.versioned("images/slide2.jpg")" alt="gulmohar"
       width="460" height="345">
      </div>
 
      <div class="item">
-      <img src="@routes.Assets.versioned("images/slide3.jpg")" alt="Flower"
+      <img src="@routes.Assets.versioned("images/slide3.jpg")" alt="gulmohar"
       width="460" height="345">
      </div>
 
      <div class="item">
-      <img src="@routes.Assets.versioned("images/slide4.jpg")" alt="Flower"
+      <img src="@routes.Assets.versioned("images/slide4.jpg")" alt="gulmohar"
       width="460" height="345">
      </div>
     </div>
@@ -68,9 +68,9 @@
       <ul class="list-group">
          @for((aArticle,i) <- listArticle.zipWithIndex){
           @if(i%2==0){
-            <a href='@routes.HomeController.showBlog' onclick=""> <li class="list-group-item list-group-item-info">@aArticle.title</li></a>
+            <a href="@routes.HomeController.showBlog(aArticle.title)"> <li class="list-group-item list-group-item-info">@aArticle.title</li></a>
           }else{
-            <a href='@routes.HomeController.showBlog'> <li class="list-group-item list-group-item-warning">@aArticle.title</li></a>
+            <a href="@routes.HomeController.showBlog(aArticle.title)"> <li class="list-group-item list-group-item-warning">@aArticle.title</li></a>
           }
          }
 </ul>
@@ -79,9 +79,9 @@
     <ul class="list-group">
         @for((aArticle,i) <- listArticle.zipWithIndex){
           @if(i%2==0){
-            <a href='@routes.HomeController.showBlog'> <li class="list-group-item list-group-item-info">@aArticle.title</li></a>
+            <a href="@routes.HomeController.showBlog(aArticle.title)"> <li class="list-group-item list-group-item-info">@aArticle.title</li></a>
           }else{
-            <a href='@routes.HomeController.showBlog'> <li class="list-group-item list-group-item-warning">@aArticle.title</li></a>
+            <a href="@routes.HomeController.showBlog(aArticle.title)"> <li class="list-group-item list-group-item-warning">@aArticle.title</li></a>
           }
          }
 </ul>
@@ -142,10 +142,13 @@
 }
         }
     </div>
-
+       @for((aAuthor,i) <- listAuthor.zipWithIndex){
+       @if(counter==0 && i>3){
+       @(counter=counter+1)
        <div class="item">
-           @for((aAuthor,i) <- listAuthor.zipWithIndex){
+           }
            @if(i>3){
+       @(counter=counter+1)
            <div class="col-md-3 col-sm-6 col-xs-12">
                <div class="card hovercard">
                    <div class="cardheader"></div>
@@ -184,10 +187,12 @@
                </div>
            </div>
            }
-           }
+       @if(counter==5 && i>3){
+       @(counter=counter+1)
+       @(counter = 0)
        </div>
-
-
+       }
+       }
    </div>
    <a class="left carousel-control" href="#myCarousel1" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
    <a class="right carousel-control" href="#myCarousel1" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>

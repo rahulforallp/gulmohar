@@ -45,11 +45,27 @@ return None
 }
 
   def executeQuery(string: String):ResultSet={
-    return getConnection().get.prepareStatement(string).executeQuery()
+    val connection = getConnection()
+    if (connection !=None) {
+    val resultSet = connection.get.prepareStatement(string).executeQuery()
+    connection.get.close()
+    return resultSet
+  }
+  else{
+    throw new Exception("Connection Refused.")
+  }
   }
 
   def execute(string: String):Boolean={
-    return !(getConnection().get.prepareStatement(string).execute())
+    val connection = getConnection()
+    if (connection !=None) {
+      val resultSet = !(connection.get.prepareStatement(string).execute())
+      connection.get.close()
+      return resultSet
+    }
+    else{
+      throw new Exception("Connection Refused.")
+    }
   }
 
   def main(args: Array[String]): Unit = {
