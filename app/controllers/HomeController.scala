@@ -12,12 +12,14 @@ import javax.inject._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, Controller}
 import database.JDBCConnection
-import models.{Article, Authors}
+import models.{Article, Authors, ForgotPassword}
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
 
+import mail.Mailer
 import play.api.Logger
+import play.api.libs.mailer.MailerClient
 
 
 /**
@@ -25,7 +27,7 @@ import play.api.Logger
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller with I18nSupport {
+class HomeController @Inject()(val messagesApi: MessagesApi,mailerClient:MailerClient) extends Controller with I18nSupport {
 
   /**
    * Create an Action to render an HTML page with a welcome message.
@@ -40,7 +42,7 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       "designation" -> nonEmptyText,
       "about" -> nonEmptyText,
       "email" -> nonEmptyText,
-      "password" -> default(text,s"rnd_company_${Random.alphanumeric take 10 mkString("")}")
+      "password" -> default(text,s"${Random.alphanumeric take 5 mkString("")}")
     )(Authors.apply)(Authors.unapply))
 
   val articleForm=Form(
@@ -53,6 +55,13 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       "likes" -> default(text,"0")
     )(Article.apply)(Article.unapply)
   )
+
+  val forgotPasswordForm = Form(
+    mapping(
+      "email" -> nonEmptyText
+    )(ForgotPassword.apply)(ForgotPassword.unapply)
+  )
+
   def index = {
     Action {
       val resultSetAuthor = JDBCConnection.executeQuery("select * from authors")
@@ -93,10 +102,10 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       JDBCConnection.execute("drop table if exists articles")
       JDBCConnection
         .execute(
-          "create table if not exists authors(name varchar,designation varchar,about varchar, email varchar)")
+          "create table if not exists authors(name varchar,designation varchar,about varchar, email varchar PRIMARY KEY,password varchar)")
       JDBCConnection
         .execute(
-          "create table if not exists articles(email varchar,title varchar,body varchar,blogTime varchar,likes varchar)")
+          "create table if not exists articles(email varchar,title varchar PRIMARY KEY,body varchar,blogTime varchar,likes varchar)")
       /*JDBCConnection.execute("insert into authors values('name1','designation1','about1','email1')")
       JDBCConnection.execute("insert into articles values('email1','title1','body1','postTime','0')")
       JDBCConnection.execute("insert into authors values('name2','designation2','about2','email2')")
@@ -156,23 +165,69 @@ var description="Something went wrong."
           },
           validData => {
             println(validData.name + " : " + validData.email+" : "+validData.designation+" : "+validData.about)
-            if (JDBCConnection
-              .execute(
-                "insert into authors values('" + validData.name + "','" + validData.designation +
-                "','" + validData.about + "','" + validData.email + "')")) {
-              Logger.info("Author recorded successfully.")
-              Future.successful(Redirect(routes.HomeController.authors()))
+            try {
+              if (JDBCConnection
+                .execute(
+                  "insert into authors values('" + validData.name + "','" + validData.designation +
+                  "','" + validData.about + "','" + validData.email + "','" + validData.password +
+                  "')")) {
+                Logger.info("Author recorded successfully.")
+                new Mailer(mailerClient)
+                  .sendEmail(validData.email, "[सफल] गुलमोहर पंजीकरण", validData.password,"regSuc")
+                Future.successful(Redirect(routes.HomeController.authors()))
+              }
+              else {
+                Logger.error("Author not recorded successfully.")
+                description = "Author not recorded successfully."
+                Future.successful(Redirect(routes.HomeController.errorPage()))
+              }
             }
-            else {
-              Logger.error("Author not recorded successfully.")
-              description ="Author not recorded successfully."
-              Future.successful(Redirect(routes.HomeController.errorPage()))
+            catch {
+              case ex: Exception => {
+                description = "Author not recorded successfully.User Already Exists."
+                Future.successful(Redirect(routes.HomeController.errorPage()))
+              }
+
             }
           }
         )
     }
   }
 
+  def sendMail(to:String,subject:String,content:String):Action[AnyContent] = {
+    Action{
+      new Mailer(mailerClient).sendEmail(to,subject,content,"")
+      Ok("")
+    }
+  }
+
+  def showForgotPassword:Action[AnyContent]={
+    Action{
+      Ok(views.html.forgotPassword(forgotPasswordForm))
+    }
+  }
+  def forgotPassword:Action[AnyContent] = {
+    Action.async {
+      implicit request =>
+        forgotPasswordForm.bindFromRequest.fold(
+          formWithErrors => {
+            Future(BadRequest(views.html.errorPage("Something went wrong.")))
+          },
+          validData => {
+            val password = s"${Random.alphanumeric take 5 mkString("")}"
+            if (JDBCConnection.execute("update authors set password = '"+password+"' where email ='"+validData.email+"'")) {
+              new Mailer(mailerClient)
+                .sendEmail(validData.email, "[सफलता] पासवर्ड रीसेट सफलता", password,"resPas")
+              Future.successful(Redirect(routes.HomeController.authors()))
+            }
+            else {
+              description = "Password Can't changed successfully.Please Try again later."
+              Future.successful(Redirect(routes.HomeController.errorPage()))
+            }
+          }
+        )
+    }
+  }
   /**
    * Create an Action for aricle upload option
    */
@@ -194,18 +249,29 @@ var description="Something went wrong."
             }
             else {
               Logger.info("Valid Author.")
+              try {
               if (JDBCConnection
                 .execute(
                   "insert into articles values('" + validData.email + "','" + validData.title +
                   "','" + validData.body + "','" + validData.postTime + "','" + validData.likes +
                   "')")) {
                 Logger.info("Article recorded successfully.")
+                new Mailer(mailerClient)
+                  .sendEmail(validData.email, "[सफल] लेख अपलोड सफलता", validData.title,"artUp")
                 Future.successful(Redirect(routes.HomeController.authors()))
               }
               else {
                 Logger.error("Article not recorded successfully.")
                 description = "Article not recorded successfully."
                 Future.successful(Redirect(routes.HomeController.errorPage()))
+              }
+              }
+              catch {
+                case ex: Exception => {
+                  description = "Article not recorded successfully.Article with this Title Already Exists."
+                  Future.successful(Redirect(routes.HomeController.errorPage()))
+                }
+
               }
             }
           }
