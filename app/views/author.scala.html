@@ -15,13 +15,15 @@
         @helper.inputText(articleForm("email"), 'id -> "email", 'size -> 30,'_label -> "ईमेल")
             </span>
             <span class="glyphicon glyphicon-envelope">
+        @helper.inputText(articleForm("password"), 'id -> "password", 'size -> 30,'_label -> "पासवर्ड")
+            </span>
+            <span class="glyphicon glyphicon-envelope">
         @helper.inputText(articleForm("title"), 'id -> "title", 'size -> 30,'_label -> "शीर्षक")
             </span>
             <span class="glyphicon glyphicon-envelope">
         @helper.input(articleForm("body"),'size -> 30,'_label -> "लेख सामग्री") { (id, name, value, args) =>
     <textarea name="@name" id="@id" @toHtmlArgs(args)></textarea>
 }
-
             </span>
             <br>
 

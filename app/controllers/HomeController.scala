@@ -15,6 +15,7 @@ import database.JDBCConnection
 import models.{Article, Authors}
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.Random
 
 import play.api.Logger
 
@@ -38,12 +39,14 @@ class HomeController @Inject()(val messagesApi: MessagesApi) extends Controller 
       "name" -> nonEmptyText,
       "designation" -> nonEmptyText,
       "about" -> nonEmptyText,
-      "email" -> nonEmptyText
+      "email" -> nonEmptyText,
+      "password" -> default(text,s"rnd_company_${Random.alphanumeric take 10 mkString("")}")
     )(Authors.apply)(Authors.unapply))
 
   val articleForm=Form(
     mapping(
       "email" -> nonEmptyText,
+      "password" -> nonEmptyText,
       "title" -> nonEmptyText,
       "body" -> nonEmptyText,
       "postTime" -> default(text,new SimpleDateFormat("dd/MM/yyyy hh:mm:ss").format(Calendar.getInstance().getTime)),
@@ -183,7 +186,7 @@ var description="Something went wrong."
             Future(BadRequest(views.html.errorPage("Something went wrong.")))
           },
           validData => {
-            val valdateemail = JDBCConnection.executeQuery("select * from authors where email='"+validData.email+"'")
+            val valdateemail = JDBCConnection.executeQuery("select * from authors where email='"+validData.email+"' and password='"+validData.password+"'")
             if(!(valdateemail.next())){
               Logger.info("Invalid Author.")
               description="Invalid Author. Author not found. Please register you email-id."
@@ -215,7 +218,7 @@ var description="Something went wrong."
       val author = Authors(resultSet.getString(1),
         resultSet.getString(2),
         resultSet.getString(3),
-        resultSet.getString(4))
+        resultSet.getString(4),"")
       getAuthors(resultSet, authorList :+ author)
     } else {
       authorList
@@ -224,7 +227,7 @@ var description="Something went wrong."
 
   def getArticles(resultSet: ResultSet, articleList: List[Article]): List[Article] = {
     if (resultSet.next()) {
-      val article = Article(resultSet.getString(1),
+      val article = Article(resultSet.getString(1),"",
         resultSet.getString(2),
         resultSet.getString(3),
         resultSet.getString(4),
