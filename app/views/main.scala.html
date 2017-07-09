@@ -72,8 +72,13 @@ font-color:rgb(0,255,255);
 }
 
 body  {
-    background-image: url("@routes.Assets.versioned("images/Gulmohar.jpg")");
+    background-color: url("@routes.Assets.versioned("images/Gulmohar1.jpg")");
     background-size:cover;
+}
+
+div.round3 {
+    border: 3px solid #f5d2ba;
+    border-radius: 12px;
 }
 
 #borderimg {
@@ -134,34 +139,31 @@ body  {
 <nav class="navbar" role="navigation">
     <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#top-navbar-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href='@routes.HomeController.index'>गुलमोहर/Gulmohaar</a>
+            <a class="navbar-brand" href='@routes.HomeController.index'><img src="@routes.Assets.versioned("images/logo.jpg")" alt="gulmohar"
+                width="130" height="70"></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="top-navbar-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href='@routes.HomeController.index'><span class="glyphicon glyphicon-heart"></span><br>दिल
+                    <a href='@routes.HomeController.index'>दिल
                         दरबार </a>
                 </li>
                 <li>
-                    <a href='@routes.HomeController.authors'><span class="glyphicon glyphicon-move"></span><br>लेखक क्षेत्र</a>
+                    <a href='@routes.HomeController.index'>तैर कर ग़ालिब</a>
                 </li>
                 <li>
-                    <a href="travelling.html"><span class="glyphicon glyphicon-camera"></span><br>छवियों
+                    <a href='@routes.HomeController.index'>छवियों
                         के साथ</a>
                 </li>
                 <li>
-                    <a href="e-book.html"><span class="glyphicon glyphicon-book"></span><br>किताब घर</a>
+                    <a href='@routes.HomeController.index'>किताब घर</a>
+                </li>
+                <li>
+                    <a href='@routes.HomeController.authors'>लेखक क्षेत्र</a>
                 </li>
                 <li class="active">
-                    <a href='@routes.HomeController.aboutUs'><span class="glyphicon glyphicon-user"></span><br>हमारे बारे में</a>
+                    <a href='@routes.HomeController.aboutUs'>हमारे बारे में</a>
                 </li>
             </ul>
         </div>

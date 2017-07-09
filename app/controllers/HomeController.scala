@@ -12,7 +12,7 @@ import javax.inject._
 import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.{Action, AnyContent, Controller}
 import database.JDBCConnection
-import models.{Article, Authors, ForgotPassword}
+import models.{Article, Authors, ForgotPassword, Subscribe}
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
@@ -62,13 +62,19 @@ class HomeController @Inject()(val messagesApi: MessagesApi,mailerClient:MailerC
     )(ForgotPassword.apply)(ForgotPassword.unapply)
   )
 
+  val subscribeForm = Form(
+    mapping(
+      "email" -> text
+    )(Subscribe.apply)(Subscribe.unapply)
+  )
+
   def index = {
     Action {
       val resultSetAuthor = JDBCConnection.executeQuery("select * from authors")
       val resultSetArticle = JDBCConnection.executeQuery("select * from articles")
       val listAuthor = getAuthors(resultSetAuthor, Nil)
       val listArticle = getArticles(resultSetArticle, Nil)
-      Ok(views.html.index(listAuthor,listArticle))
+      Ok(views.html.index(listAuthor,listArticle,subscribeForm))
     }
   }
 
@@ -106,6 +112,9 @@ class HomeController @Inject()(val messagesApi: MessagesApi,mailerClient:MailerC
       JDBCConnection
         .execute(
           "create table if not exists articles(email varchar,title varchar PRIMARY KEY,body varchar,blogTime varchar,likes varchar)")
+      JDBCConnection
+        .execute(
+          "create table if not exists subscriber(email varchar PRIMARY KEY)")
       /*JDBCConnection.execute("insert into authors values('name1','designation1','about1','email1')")
       JDBCConnection.execute("insert into articles values('email1','title1','body1','postTime','0')")
       JDBCConnection.execute("insert into authors values('name2','designation2','about2','email2')")
@@ -148,6 +157,50 @@ var description="Something went wrong."
       val resultSet = JDBCConnection.executeQuery("select * from articles")
       val listArticles = getArticles(resultSet, Nil)
       Ok(listArticles.mkString(","))
+    }
+  }
+
+  def getAllSubscribers = {
+    Action {
+      Logger.info("Retrieving All Subscribers.")
+      val resultSet = JDBCConnection.executeQuery("select * from subscriber")
+      val listSubscriber = getSubscribers(resultSet, Nil)
+      Ok(listSubscriber.mkString(","))
+    }
+  }
+
+  def doSubscribe: Action[AnyContent] = {
+    Action.async {
+      implicit request =>
+        Logger.debug("Subscription in progress. ")
+        subscribeForm.bindFromRequest.fold(
+          formWithErrors => {
+            Logger.error("Subscription badRequest.")
+            Future(BadRequest(views.html.errorPage("Something went wrong")))
+          },
+          validData => {
+            try {
+              if (JDBCConnection
+                .execute(
+                  "insert into subscriber values('" + validData.email + "')")) {
+                Logger.info("Subscriber recorded successfully.")
+                new Mailer(mailerClient)
+                  .sendEmail(validData.email, "[सफल] गुलमोहर सदस्यता पंजीकरण", "", "kchbhi")
+                Future.successful(Redirect(routes.HomeController.index()))
+              }
+              else {
+                Logger.error("Subscriber not recorded successfully.")
+                description = "Subscriber not recorded successfully."
+                Future.successful(Redirect(routes.HomeController.errorPage()))
+              }
+            }
+            catch {
+              case ex: Exception => {
+                description = "Subscriber not recorded successfully.User Already Exists."
+                Future.successful(Redirect(routes.HomeController.errorPage()))
+              }
+            }
+          })
     }
   }
 
@@ -258,6 +311,19 @@ var description="Something went wrong."
                 Logger.info("Article recorded successfully.")
                 new Mailer(mailerClient)
                   .sendEmail(validData.email, "[सफल] लेख अपलोड सफलता", validData.title,"artUp")
+                val f: Future[List[Unit]] =Future{
+                  val resultSet = JDBCConnection.executeQuery("select * from subscriber")
+                  val listSubscriber = getSubscribers(resultSet, Nil)
+                  val mailer = new Mailer(mailerClient)
+                    listSubscriber.map{
+                      subscriber => mailer.sendEmail(subscriber.email, "[गुलमोहर] नया लेख अपलोड किया गया", validData.title,"subsNot")
+                    }
+                }
+                import scala.util.{Success, Failure}
+                f onComplete {
+                  case Success(posts) =>Logger.info("Mail Sent to subscriber for "+validData.title)
+                  case Failure(t) => Logger.info("Mail Sent Failure for "+validData.title)
+                }
                 Future.successful(Redirect(routes.HomeController.authors()))
               }
               else {
@@ -302,6 +368,16 @@ var description="Something went wrong."
       getArticles(resultSet, articleList :+ article)
     } else {
       articleList
+    }
+  }
+
+  def getSubscribers(resultSet: ResultSet, subscriberList: List[Subscribe]): List[Subscribe] = {
+    if (resultSet.next()) {
+      val subscriber = Subscribe(resultSet.getString(1)
+      )
+      getSubscribers(resultSet, subscriberList :+ subscriber)
+    } else {
+      subscriberList
     }
   }
 

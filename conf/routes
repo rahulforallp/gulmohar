@@ -14,8 +14,9 @@ GET     /initauthors                controllers.HomeController.initauthors
 GET     /errorPage                  controllers.HomeController.errorPage
 GET     /showBlog:title             controllers.HomeController.showBlog(title:String)
 GET     /likeblog:title             controllers.HomeController.likeBlog(title:String)
-POST     /signup                    controllers.HomeController.signUp
-POST     /articleUpload             controllers.HomeController.articleUpload
+POST    /signup                     controllers.HomeController.signUp
+POST    /doSubscribe                controllers.HomeController.doSubscribe
+POST    /articleUpload              controllers.HomeController.articleUpload
 GET     /sendMailto:subject:content controllers.HomeController.sendMail(to:String,subject:String,content:String)
 
 # An example controller showing how to use dependency injection

@@ -30,6 +30,12 @@ class Mailer @Inject() (mailerClient:MailerClient) {
           Seq(to),
         bodyHtml = Some(s"""<html><body><p><center><table border=”0″ cellpadding=”0″ cellspacing=”0″ width=”600″ bgcolor=”#ffffff” ><tr bgcolor=”#c63a56”><td><font size="6">आपके अनुच्छेद को सफलतापूर्वक अपलोड किया गया है.</font></tr><tr bgcolor=”#c63a56”><td><font size="6">आपके अनुच्छेद का शीर्षक है : </font><font size="4"><b> $content </b></font></tr><tr bgcolor=”#c63a56”><td><font size="6">धन्यवाद</font></tr></table><center></p></body></html>""")
           )
+      case "subsNot" =>Email(
+          subject,
+          "gulmohar.noreply@gmail.com",
+          Seq(to),
+        bodyHtml = Some(s"""<html><body><p><center><table border=”0″ cellpadding=”0″ cellspacing=”0″ width=”600″ bgcolor=”#ffffff” ><tr bgcolor=”#c63a56”><td><font size="6">नये अनुच्छेद को अपलोड किया गया है.</font></tr><tr bgcolor=”#c63a56”><td><font size="6">अनुच्छेद का शीर्षक है : </font><font size="4"><b> $content </b></font></tr><tr bgcolor=”#c63a56”><td><font size="6">धन्यवाद</font></tr></table><center></p></body></html>""")
+          )
       case _ =>Email(
           subject,
           "gulmohar.noreply@gmail.com",
