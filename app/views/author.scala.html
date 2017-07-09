@@ -15,7 +15,7 @@
         @helper.inputText(articleForm("email"), 'id -> "email", 'size -> 30,'_label -> "ईमेल")
             </span>
             <span class="glyphicon glyphicon-envelope">
-        @helper.inputText(articleForm("password"), 'id -> "password", 'size -> 30,'_label -> "पासवर्ड")
+        @helper.inputPassword(articleForm("password"), 'id -> "password", 'size -> 30,'_label -> "पासवर्ड")
             </span>
             <span class="glyphicon glyphicon-envelope">
         @helper.inputText(articleForm("title"), 'id -> "title", 'size -> 30,'_label -> "शीर्षक")
@@ -27,10 +27,10 @@
             </span>
             <br>
 
-            <input type="submit" value="जमा करें">
+            <input type="submit" value="जमा करें" class="btn btn-primary">
             }
             @helper.form(action = routes.HomeController.showForgotPassword) {
-            <input type="submit" value="पासवर्ड भूल गए">
+            <input type="submit" value="पासवर्ड भूल गए" class="btn btn-danger">
             }
         </div>
     </div>
@@ -51,7 +51,7 @@
         @helper.inputText(signUpForm("email"), 'id -> "email", 'size -> 30,'_label -> "ईमेल")
             </span>
             <br>
-            <input type="submit" value="जमा करें">
+            <input type="submit" value="जमा करें" class="btn btn-primary">
             }
         </div>
     </div>
