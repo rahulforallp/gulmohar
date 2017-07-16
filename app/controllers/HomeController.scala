@@ -42,7 +42,8 @@ class HomeController @Inject()(val messagesApi: MessagesApi,mailerClient:MailerC
       "designation" -> nonEmptyText,
       "about" -> nonEmptyText,
       "email" -> nonEmptyText,
-      "password" -> default(text,s"${Random.alphanumeric take 5 mkString("")}")
+      "password" -> default(text,s"${Random.alphanumeric take 5 mkString("")}"),
+      "imagePath"->default(text,"author.jpg")
     )(Authors.apply)(Authors.unapply))
 
   val articleForm=Form(
@@ -108,7 +109,7 @@ class HomeController @Inject()(val messagesApi: MessagesApi,mailerClient:MailerC
       JDBCConnection.execute("drop table if exists articles")
       JDBCConnection
         .execute(
-          "create table if not exists authors(name varchar,designation varchar,about varchar, email varchar PRIMARY KEY,password varchar)")
+          "create table if not exists authors(name varchar,designation varchar,about varchar, email varchar PRIMARY KEY,password varchar,imagePath varchar)")
       JDBCConnection
         .execute(
           "create table if not exists articles(email varchar,title varchar PRIMARY KEY,body varchar,blogTime varchar,likes varchar)")
@@ -135,6 +136,13 @@ class HomeController @Inject()(val messagesApi: MessagesApi,mailerClient:MailerC
       Ok(views.html.author(signUpForm,articleForm))
     }
   }
+
+  def showimageupload(email:String) = {
+    Action {
+      Ok(views.html.authorimage(email))
+    }
+  }
+
 var description="Something went wrong."
   def errorPage = {
     Action {
@@ -204,13 +212,14 @@ var description="Something went wrong."
     }
   }
 
-  def upload = Action(parse.multipartFormData) { request =>
+  def upload(email:String) = Action(parse.multipartFormData) { request =>
     request.body.file("picture").map { picture =>
       import java.io.File
-      val filename = picture.filename
+      val filename = email.split("@")(0)
       val contentType = picture.contentType
-      picture.ref.moveTo(new File(s"/home/rahul/Documents/gulmohar/public/$filename"))
-      Ok("File uploaded")
+      println(play.api.Play)
+      picture.ref.moveTo(new File(s"public/images/author/$filename.jpg"))
+      Ok(views.html.author(signUpForm,articleForm))
     }.getOrElse {
       Redirect(routes.HomeController.index).flashing(
         "error" -> "Missing file")
@@ -236,11 +245,11 @@ var description="Something went wrong."
                 .execute(
                   "insert into authors values('" + validData.name + "','" + validData.designation +
                   "','" + validData.about + "','" + validData.email + "','" + validData.password +
-                  "')")) {
+                  "','"+validData.imagePath+"')")) {
                 Logger.info("Author recorded successfully.")
                 new Mailer(mailerClient)
                   .sendEmail(validData.email, "[सफल] गुलमोहर पंजीकरण", validData.password,"regSuc")
-                Future.successful(Redirect(routes.HomeController.authors()))
+                Future.successful(Redirect(routes.HomeController.showimageupload(validData.email)))
               }
               else {
                 Logger.error("Author not recorded successfully.")
@@ -363,7 +372,9 @@ var description="Something went wrong."
       val author = Authors(resultSet.getString(1),
         resultSet.getString(2),
         resultSet.getString(3),
-        resultSet.getString(4),"")
+        resultSet.getString(4),"",
+        resultSet.getString(5)
+      )
       getAuthors(resultSet, authorList :+ author)
     } else {
       authorList

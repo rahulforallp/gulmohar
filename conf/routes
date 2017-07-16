@@ -15,6 +15,8 @@ GET     /errorPage                  controllers.HomeController.errorPage
 GET     /showBlog:title             controllers.HomeController.showBlog(title:String)
 GET     /likeblog:title             controllers.HomeController.likeBlog(title:String)
 POST    /signup                     controllers.HomeController.signUp
+POST    /imageupload:email          controllers.HomeController.upload(email:String)
+GET     /showimageupload:email      controllers.HomeController.showimageupload(email:String)
 POST    /doSubscribe                controllers.HomeController.doSubscribe
 POST    /articleUpload              controllers.HomeController.articleUpload
 GET     /sendMailto:subject:content controllers.HomeController.sendMail(to:String,subject:String,content:String)
