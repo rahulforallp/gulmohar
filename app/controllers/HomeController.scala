@@ -249,7 +249,21 @@ var description="Something went wrong."
                 Logger.info("Author recorded successfully.")
                 new Mailer(mailerClient)
                   .sendEmail(validData.email, "[सफल] गुलमोहर पंजीकरण", validData.password,"regSuc")
-                Future.successful(Redirect(routes.HomeController.showimageupload(validData.email)))
+                request.body.asFormUrlEncoded.get("action").headOption match {
+                  case Some("जमा करें")=>{
+                    println("जमा करें button clicked")
+                    Future.successful(Redirect(routes.HomeController.authors()))
+                  }
+                  case Some("जमा करें और छवि अपलोड करें") => {
+                    println("जमा करें और छवि अपलोड करें button clicked")
+                    Future.successful(Redirect(routes.HomeController.showimageupload(validData.email)))
+                  }
+                  case _ => {
+                    Logger.error("Author not recorded successfully.")
+                    description = "Author not recorded successfully."
+                    Future.successful(Redirect(routes.HomeController.errorPage()))
+                  }
+                }
               }
               else {
                 Logger.error("Author not recorded successfully.")
@@ -289,15 +303,25 @@ var description="Something went wrong."
             Future(BadRequest(views.html.errorPage("Something went wrong.")))
           },
           validData => {
-            val password = s"${Random.alphanumeric take 5 mkString("")}"
-            if (JDBCConnection.execute("update authors set password = '"+password+"' where email ='"+validData.email+"'")) {
-              new Mailer(mailerClient)
-                .sendEmail(validData.email, "[सफलता] पासवर्ड रीसेट सफलता", password,"resPas")
-              Future.successful(Redirect(routes.HomeController.authors()))
+            val valdateemail = JDBCConnection.executeQuery("select * from authors where email='"+validData.email+"'")
+            if(!(valdateemail.next())){
+              Logger.info("Invalid Author.")
+              description="Invalid Author. Author not found. Please register you email-id."
+              Future.successful(Redirect(routes.HomeController.errorPage()))
             }
             else {
-              description = "Password Can't changed successfully.Please Try again later."
-              Future.successful(Redirect(routes.HomeController.errorPage()))
+              val password = s"${ Random.alphanumeric take 5 mkString ("") }"
+              if (JDBCConnection
+                .execute("update authors set password = '" + password + "' where email ='" +
+                         validData.email + "'")) {
+                new Mailer(mailerClient)
+                  .sendEmail(validData.email, "[सफलता] पासवर्ड रीसेट सफलता", password, "resPas")
+                Future.successful(Redirect(routes.HomeController.authors()))
+              }
+              else {
+                description = "Password Can't changed successfully.Please Try again later."
+                Future.successful(Redirect(routes.HomeController.errorPage()))
+              }
             }
           }
         )
@@ -323,7 +347,7 @@ var description="Something went wrong."
               Future.successful(Redirect(routes.HomeController.errorPage()))
             }
             else {
-              Logger.info("Valid Author.")
+              Logger.info("Valid Author . uploading article.")
               try {
               if (JDBCConnection
                 .execute(
@@ -373,7 +397,7 @@ var description="Something went wrong."
         resultSet.getString(2),
         resultSet.getString(3),
         resultSet.getString(4),"",
-        resultSet.getString(5)
+        resultSet.getString(6)
       )
       getAuthors(resultSet, authorList :+ author)
     } else {
